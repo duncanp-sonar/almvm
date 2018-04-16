@@ -32,13 +32,13 @@ In this lab, you will learn how to integrate Visual Studio Team Services with So
 
 1. You will need a **Visual Studio Team Services Account**. If you do not have one, you can sign up for free [here](https://www.visualstudio.com/products/visual-studio-team-services-vs){:target="_blank"}
 
-1. A **Microsoft Work or School account, or a GitHub/BitBucket account**. SonarCloud supports logins using any of those types of account.
+1. A **Microsoft Work or School account, or a GitHub/BitBucket account**. SonarCloud supports logins using any of those identity providers.
 
 ## Setting up the Environment
 
 1. Install the SonarCloud VSTS extension to your VSTS account
 
-    - install the SonarCloud extension from the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=SonarSource.sonarcloud){:target="_blank"}
+    - Navigate to the  [SonarCloud extension](https://marketplace.visualstudio.com/items?itemName=SonarSource.sonarcloud){:target="_blank"} in the [Visual Studio Marketplace] and click **Get it free** to install it.
 
     ![sc_marketplace](images/sc_marketplace.png)
 
@@ -51,19 +51,21 @@ In this lab, you will learn how to integrate Visual Studio Team Services with So
     - Create a new project in your VSTS account called **SonarExamples**
 
     - Import the **Sonar Scanning Examples repository** from GitHub at https://github.com/SonarSource/sonar-scanning-examples.git
-    For detailed instructions see [here](https://docs.microsoft.com/en-us/vsts/git/import-git-repository?view=vsts){:target="_blank"}
+    See [here](https://docs.microsoft.com/en-us/vsts/git/import-git-repository?view=vsts){:target="_blank"} for detailed instructions on importing a repository.
 
     The scanning examples repository contains sample projects for a number of build systems and languages including C# with MSBuild, and Maven and Gradle with Java.
 
 ## Exercise 1: Set up a build definition that integrates with SonarCloud
 
-We will set up a new build definition that integrates with SonarQube to analyze the SonarExamples code. As part of setting up the build definition we will create a SonarCloud account.
+We will set up a new build definition that integrates with SonarQube to analyze the **SonarExamples** code. As part of setting up the build definition we will create a SonarCloud account and organization.
 
-1. In your new VSTS project, Go to **Builds** under **Build and Release** tab, then click on _New_ to create a new build definition.
+1. In your new VSTS project, go to **Builds** under **Build and Release** tab, then click on **+New** to create a new build definition.
 
-1. Click _Continue_ to accept the default values for _source_, _Team project_ _Repository_ and _Default branch_ 
+1. Click **Continue** to accept the default values for **source**, **Team project** **Repository** and **Default branch**
 
-   {% include note.html content= "The SonarCloud extension contains custom build templates for Maven, Gradle, .NET Core and .NET Desktop applications. The templates are based on the standard VSTS templates but with additional analsysis specific tasks and some pre-configured settings. %}
+    ![build_source](images/build_source.png)
+
+   > include note.html content= "The SonarCloud extension contains custom build templates for Maven, Gradle, .NET Core and .NET Desktop applications. The templates are based on the standard VSTS templates but with additional analysis-specific tasks and some pre-configured settings.
 
 1. Select the .NET Desktop with SonarCloud template.
 
@@ -79,32 +81,31 @@ We will set up a new build definition that integrates with SonarQube to analyze 
 
     ![build_config_prepare](images/build_config_prepare.png)
 
-There are three settings that need to be configured:
+   There are three settings that need to be configured:
 
    |Setting|Value|Notes|
    |---------|-----|-----|
    |**SonarCloud Service Endpoint**|SonarCloudSamples|The name of the VSTS endpoint that connects to SonarCloud|
-   |** Organization **|_your SonarCloud org id_ |The unique key of your organization in SonarQube|
-   |** Project Key **|_your SonarCloud org id_.netfxdemo |The unique key of the project in SonarQube|
+   |**Organization**|_{your SonarCloud org id}_ |The unique key of your organization in SonarQube|
+   |**Project Key**|_{your SonarCloud org id}_.netfxdemo |The unique key of the project in SonarQube|
 
+   We will now create the endpoint and an account on SonarCloud.
 
 1. Create a service endpoint for SonarCloud
 
-A service endpoint holds the configuration information VSTS requires to connect to an external service, in this case SonarCloud.
-There is a custom SonarCloud endpoint that requires two pieces of information: the identity of the organization in SonarCloud, and a
-token that the VSTS build can use to connect to SonarCloud. We will create both while setting up the endpoint.
-
- - click on the _New_ button
+   A service endpoint holds the configuration information VSTS requires to connect to an external service, in this case SonarCloud. There is a custom SonarCloud endpoint that requires two pieces of information: the identity of the organization in SonarCloud, and a token that the VSTS build can use to connect to SonarCloud. We will create both while setting up the endpoint.
 
     ![build_config_prepare_newendpoint](images/build_config_prepare_newendpoint.png)
+
+   - click on the _New_ button to start creating a new endpoint
 
 1. Create a SonarCloud account
 
     ![build_config_endpoint](images/build_config_endpoint.png)
 
-- click on the **your SonarCloud account security page** link
+   - click on the **your SonarCloud account security page** link
 
-You will be taken to the SonarCLoud login page where you can choose the identity provider you want to use with SonarCloud: a Microsoft work or school account, a GitHub account, or a BitBucket account.
+   You will be taken to the SonarCloud login page where you can choose the identity provider you want to use with SonarCloud: a Microsoft work or school account, a GitHub account, or a BitBucket account.
 
 1. Select the identity provider to use
 
@@ -120,24 +121,27 @@ You will be taken to the SonarCLoud login page where you can choose the identity
 
 1. Generate a token to allow VSTS to access your account on SonarCloud:
 
-- enter a description name for the token e.g. "sonar_examples_token" and click _Generate_ 
-
-- click _Copy_ to copy the new token to the clipboard
-
     ![sc_generatetoken1](images/sc_generatetoken2.png)
+
+   - enter a description name for the token e.g. "sonar_examples_token" and click _Generate_ 
+
+   - click _Copy_ to copy the new token to the clipboard
 
     {% include note.html content= "You should treat Personal Access Tokens like passwords. It is recommended that you save them somewhere safe so that you can re-use them for future requests." %}
 
-We have now created an organization on SonarCloud, and have the token needed configure the VSTS endpoint.
+   We have now created an organization on SonarCloud, and have the token needed configure the VSTS endpoint.
 
-- return to VSTS _Add new SonarCloud Connection_ page, enter the SonarCloud token you have just created.
-- click _Verify connection_ to check the endpoint is working, then click _OK_ to save the endpoint.
+1. Finish creating the endpoint in VSTS
+   - return to VSTS _Add new SonarCloud Connection_ page, enter the SonarCloud token you have just created.
+   - click _Verify connection_ to check the endpoint is working, then click _OK_ to save the endpoint.
 
-We can now finished configuring the _Prepare analysis on SonarCloud_ task.
-- click on the _Organization_ drop-down and select your organization.
+1. Finish configuring the _Prepare analysis on SonarCloud_ task.
 
-- enter a unique key for your project e.g. _myaccount-vsts-sonarexamples_
-- enter a friendly name for the project e.g. _Sonar Examples_
+    ![build_config_prepare_completed](images/build_config_prepare_completed.png)
+
+   - click on the _Organization_ drop-down and select your organization.
+   - enter a unique key for your project e.g. _myaccount-vsts-sonarexamples_
+   - enter a friendly name for the project e.g. _Sonar Examples_
 
 1. [Optional] Enable the _Publish Quality Gate Result_ step
   This step is not required and is disabled by default.
