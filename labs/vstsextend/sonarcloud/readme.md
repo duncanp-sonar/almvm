@@ -65,7 +65,7 @@ We will set up a new build definition that integrates with SonarQube to analyze 
 
     ![build_source](images/build_source.png)
 
-   > include note.html content= "The SonarCloud extension contains custom build templates for Maven, Gradle, .NET Core and .NET Desktop applications. The templates are based on the standard VSTS templates but with additional analysis-specific tasks and some pre-configured settings.
+   > The SonarCloud extension contains custom build templates for Maven, Gradle, .NET Core and .NET Desktop applications. The templates are based on the standard VSTS templates but with additional analysis-specific tasks and some pre-configured settings.
 
 1. Select the .NET Desktop with SonarCloud template.
 
@@ -105,25 +105,31 @@ We will set up a new build definition that integrates with SonarQube to analyze 
 
    - click on the **your SonarCloud account security page** link
 
-   You will be taken to the SonarCloud login page where you can choose the identity provider you want to use with SonarCloud: a Microsoft work or school account, a GitHub account, or a BitBucket account.
+   As we are not currently logged in to SonarCloud we will be taken to the SonarCloud login page.
 
-1. Select the identity provider to use
+1. Select the identity provider to use to log in to SonarCloud
 
     ![sc_identity_providers](images/sc_identity_providers.png)
 
-   {% include note.html content= "The first time you access SonarCloud, you will be asked to grant SonarCloud.io access to your account. The only permission that SonarCloud requires is to read your email address" %}
+1. Authorize SonarCloud to use the identity provider
+
+   > The first time you access SonarCloud, you will be asked to grant SonarCloud.io access to your account. The only permission that SonarCloud requires is to read your email address
 
     ![sc_authorize](images/sc_authorize.png)
 
     After authorizing and logging in, we will be redirected to the **Generate token** page
 
-    ![sc_generatetoken1](images/sc_generatetoken.png)
-
 1. Generate a token to allow VSTS to access your account on SonarCloud:
 
-    ![sc_generatetoken1](images/sc_generatetoken2.png)
+    ![sc_generatetoken1](images/sc_generatetoken.png)
 
    - enter a description name for the token e.g. "sonar_examples_token" and click _Generate_ 
+
+   - click **Generate**
+
+1. Copy the generated token
+
+    ![sc_generatetoken2](images/sc_generatetoken2.png)
 
    - click _Copy_ to copy the new token to the clipboard
 
@@ -132,6 +138,9 @@ We will set up a new build definition that integrates with SonarQube to analyze 
    We have now created an organization on SonarCloud, and have the token needed configure the VSTS endpoint.
 
 1. Finish creating the endpoint in VSTS
+
+    ![build_endpoint_completed](images/build_endpoint_completed.png)
+
    - return to VSTS _Add new SonarCloud Connection_ page, enter the SonarCloud token you have just created.
    - click _Verify connection_ to check the endpoint is working, then click _OK_ to save the endpoint.
 
