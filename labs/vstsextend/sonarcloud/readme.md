@@ -12,7 +12,7 @@ Last updated : {{ "now" | date: "%b %d,%Y" }}
 
 Technical debt is the set of problems in a development effort that make forward progress on customer value inefficient. Technical debt saps productivity by making code hard to understand, fragile, time-consuming to change, difficult to validate, and creates unplanned work that blocks progress. Unless they are managed, technical debt can accumulate and hurt the overall quality of the software and the productivity of the development team in the long term
 
-[SonarCloud](https://about.sonarcloud.io/){:target="_blank"} an open source platform for continuous inspection of code quality to perform automatic reviews with static analysis of code to:
+[SonarCloud](https://about.sonarcloud.io/){:target="_blank"} is an open source platform for continuous inspection of code quality to perform automatic reviews with static analysis of code to:
 
 - Detect Bugs
 - Code Smells
@@ -44,7 +44,7 @@ In this lab, you will learn how to integrate Visual Studio Team Services with So
 
    {% include important.html content= "If you do not have the appropriate permissions to install an extension from the marketplace, a request will be sent to the account administrator to ask them to approve the installation." %}
 
-   The SonarClound extension contains build tasks, build templates and a custom dashboard widget.
+   The SonarCloud extension contains build tasks, build templates and a custom dashboard widget.
 
 1. Create a new VSTS project for the lab
     
