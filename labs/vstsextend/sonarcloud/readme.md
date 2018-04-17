@@ -198,7 +198,7 @@ Open the **Sonar Examples - NetFx** project in the SonarCloud Dashboard.  Under 
    |**Duplications**|The duplications decoration shows which parts of the source code are duplicated|
    |**Size**|Provides the count of lines of code within the project including the number of statements, Functions, Classes, Files and Directories|
 
-  {% include important.html content= "In this example, along with the bug count, a character **C** is displayed which is known as **Reliability Rating**. **C** indicates that there is **at least 1 major bug** in this code. For more information on Reliability Rating, click [here](https://docs.sonarqube.org/display/SONAR/Metric+Definitions#MetricDefinitions-Reliability)". For more information on rule types and severities, see [here](https://docs.sonarqube.org/display/SONAR/Rules+-+types+and+severities) %}
+  {% include important.html content= "In this example, along with the bug count, a character **C** is displayed which is known as **Reliability Rating**. **C** indicates that there is **at least 1 major bug** in this code. For more information on Reliability Rating, click [here](https://docs.sonarqube.org/display/SONAR/Metric+Definitions#MetricDefinitions-Reliability)". For more information on rule types and severities, see [here](https://docs.sonarqube.org/display/SONAR/Rules+-+types+and+severities). %}
 
 1. Click on the **Bugs** count to see the details of the bug.
 
@@ -239,92 +239,75 @@ Open the **Sonar Examples - NetFx** project in the SonarCloud Dashboard.  Under 
 
 
 ## Exercise 3: Set up pull request integration
+   
+   Setting up code analysis to run when a pull request is created has two parts:
+   - the SonarCloud project needs to be provided with an access token so it can add PR comments to VSTS, and
+   - a Branch Policy needs to be configured in VSTS to trigger the PR build
 
-**TODO**
+1. Create a **Personal Access Token** in VSTS.
+
+   - Follow the instructions in this [article](https://docs.microsoft.com/en-us/vsts/accounts/use-personal-access-tokens-to-authenticate){:target="_blank"} for instructions to create your token.
+
+   SonarCloud requires the permissions authorized scope **Code (read and write)** to be able to post comments to pull requests.
+   
+   ![vsts_pat_permissions](images/ex3/vsts_pat_permissions.png)
+
+   {% include note.html content= "You should treat Personal Access Tokens like passwords. It is recommended that you save them somewhere safe so that you can re-use them for future requests." %}
+
+1. Configure SonarCloud to analyze pull requests
+
+   - browse to the **Sonar Examples - NetFx** dashboard in SonarCloud
+   - click on **Administration**, **General Settings** and select the **Pull Requests** tab
+   
+   ![sc_admin](images/ex3/sc_admin.png)
+
+   - set the **Provider** drop-down to **VSTS**
+   - set the **Personal access token**
+   - click **Save**
+
+   ![sc_general_settings](images/ex3/sc_general_settings.png)
+
+1. Configure the branch policy for the project in VSTS
+
+   - navigate to the **SonarExamples** project in VSTS
+   - click on **Code**, **Branches** to view the list of branches
+
+      ![vsts_home](images/ex3/vsts_home.png)
+
+   - click on the settings link ("**...***") for **master** and select **Branch policies***
+
+      ![vsts_branches](images/ex3/vsts_branches.png)
+
+   - click **Add Build Policy**
+
+      ![vsts_branch_policy](images/ex3/vsts_branch_policy.png)
+
+   - select the build definition we created earlier from the **Build definition** drop-down
+   - set the **Display name** to **SonarCloud analysis**
+   - click **Save**
+
+      ![vsts_branch_policy](images/ex3/vsts_branch_policy.png)
+
+
+1. Create a new pull request
+   
+   Now we need to make a change and create a new request so we check that the pull request triggers the analysis.
+
+   - navigate to the code file **Program.cs** at **sonarqube-scanner-msbuild/CSharpProject/SomeConsoleApplication/Program.cs**
+
+   IMAGE
+
+   - edit the code 
+
+   IMAGE
+   
+   - commit the change to a new branch, and check the option **Create pull request**
+
+   Committing the change will trigger a new build
 
 ## Exercise 4: Add a dashboard widget
 
 **TODO**
-
-## Exercise 5: Configure Quality Gate
-
-**TODO - recreate images for SonarCloud**
-
-   Let us create a Quality Gate to enforce a policy which fails the gate if there are bugs in the code. A Quality Gate is a PASS/FAIL check on a code quality that must be enforced before releasing software.
-
-1. Log in to SonarCloud and navigate to the **Sonar Examples** project
-
-1. Click on **Quality Gates** menu and click **Create** in the Quality Gates screen.
-
-   ![qualitygate](images/qualitygate.png)
-
-   ![qg-create](images/qg-create.png)
-
-1. Enter name for the Quality Gate and click **Create**.
-
-   ![qgcreate-popup](images/qgcreate-popup.png)
-
-1. Let us add a condition to check for the number of bugs in the code. Click on **Add Condition** drop down and select the value **Bugs**.
-
-   ![qg-bugs](images/qg-bugs.png)
-
-1. Change the **Operator** value to **is greater than** and the **ERROR** threshold value to **0** (zero) and click on the **Add** button.
-
-   {% include note.html content= "This condition means that if the number of bugs in Sonar Analysis is greater than 0 (zero) then the quality gate will fail and will appear red." %}
-
-   ![qgbug-add](images/qgbug-add.png)
-
-1. To enforce this quality gate for **Sonar Examples** project, click on **All** under **Projects** section and select the project checkbox.
-
-   ![qg-selectproject](images/qg-selectproject.png)
-
-1. Now return to VSTS and queue a new build
-
-   ![TODO](images/build_configure.png)
-
-**TODO**
-1. You will see that the build has failed since the associated  **SonarQube Quality Gate** has **failed**. The  count of bugs is also displayed under **SonarQube Analysis Report**.
-
-   ![build_summary](images/build_summary.png)
-
-1. Click on the **Detailed SonarQube Report** link in the build summary to open the project in SonarQube.
-
-   ![analysis_report](images/analysis_report.png)
-
-
-1. You will see the error in line number 28 of **LoginServlet.java** file as **Make "List" serializable or don't store it in the session**.
-
-   ![bug_details_2](images/bug_details_2.png)
-
-1. The error is because the session attribute accepts only serialized objects. This can be fixed by explicitly casting the list object to serializable. Lets fix this bug -
-
-   Go to below path to edit the file in **VSTS** code tab:-
-
-   >src/main/java/com/microsoft/example/servlet/LoginServlet.java
-
-   Make the following changes in the code as shown:
-
-   - Go to line number **28** and replace the existing code with below snippet.
-
-      >session.setAttribute("employeeList", (Serializable)fareList);
-
-      ![code_edit](images/code_edit.png)
-
-   - Import the below package.
-
-      >import java.io.Serializable;
-
-      ![code_import](images/code_import.png)
-
-1. Commit the changes.
-
-1. Once the CI build completes, you will see the Quality Gate as **Passed** in the build summary along with a brief view of **Test Results**, **Code Coverage** and link to SonarQube Analysis Report.
-
-   ![build_summary_bug_fix](images/build_summary_bug_fix.png)
-
-1. Go to SonarQube portal. You will see the bug count is **0**.
-
-   ![bug_fix_sonar_portal](images/bug_fix_sonar_portal.png)
 
 ## Summary
 
