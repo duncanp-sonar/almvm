@@ -179,11 +179,9 @@ We will set up a new build definition that integrates with SonarQube to analyze 
 
 ## Exercise 2: Analyze SonarQube Reports
 
-Open the **Sonar Examples** project in the SonarQube Dashboard. The dashboard shows a summary of the quality of the project - the number of issues found, the code coverage, and any code duplication. We have just analysed the project for the first time so there is no historical information. However, as we integrated the analysis into a CI build, new analysis results will be continue to be pushed to SonarQube as the code changes, and trend lines will appear on the dashboard.
+Open the **Sonar Examples** project in the SonarQube Dashboard.  Under ***Bugs and Vulnerabilities***, we can see a bug has been caught.
 
-Under ***Bugs and Vulnerabilities***, we can see a bug has been caught.
-
-  ![sonar_portal](images/ex2/sonar_portal.png)
+  ![sonar_portal](images/ex2/sonar_portal_bug.png)
 
   The page has other metrics such as ***Code Smells***, ***Coverage***, ***Duplications*** and ***Size***. The following table briefly explains each of these terms.
 
@@ -200,11 +198,13 @@ Under ***Bugs and Vulnerabilities***, we can see a bug has been caught.
 
 1. Click on the **Bugs** count to see the details of the bug.
 
-   ![sonar_portal](images/ex2/sonar_portal.png)
+   ![sonar_portal](images/ex2/sonar_portal_bug.png)
+
+1. Click on the bug to navigate to the code
 
    ![bug_details](images/ex2/bug_details.png)
 
-1. You will see the error in line number 9 of *Program.cs** file as **Change this condition so that it does not always evaluate to 'true'; some subsequent code is never executed.**.
+1. You will see the error in line number 9 of **Program.cs** file as **Change this condition so that it does not always evaluate to 'true'; some subsequent code is never executed.**.
 
    ![bug_details_2](images/ex2/bug_details_2.png)
 
@@ -229,7 +229,7 @@ Under ***Bugs and Vulnerabilities***, we can see a bug has been caught.
    - select **Size** in the **Sort by:** drop-down
    - sort the results in descending order
 
-   ![sc_projects_all](images/sc_projects_all_filtered.png)
+   ![sc_projects_all_filtered](images/sc_projects_all_filtered.png)
 
    We have seen how to browse the project on SonarCloud to look at issues that already exist in the code base. Next, we will set up integration with pull requests so that issues can be identified and corrected before they are merged.
 
