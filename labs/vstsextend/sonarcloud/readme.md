@@ -179,7 +179,7 @@ We will set up a new build definition that integrates with SonarQube to analyze 
 
 ## Exercise 2: Analyze SonarQube Reports
 
-Open the **Sonar Examples** project in the SonarQube Dashboard.  Under ***Bugs and Vulnerabilities***, we can see a bug has been caught.
+Open the **Sonar Examples - NetFx** project in the SonarQube Dashboard.  Under ***Bugs and Vulnerabilities***, we can see a bug has been caught.
 
   ![sonar_portal](images/ex2/sonar_portal_bug.png)
 
@@ -212,7 +212,7 @@ Open the **Sonar Examples** project in the SonarQube Dashboard.  Under ***Bugs a
 
    ![bug_details_code_coverage](images/ex2/bug_details_code_coverage.png)
 
-   Our sample project is very small and has no historical data. However, there are thousnads of public projects on SonarCloud that have more interesting and realistic results.
+   Our sample project is very small and has no historical data. However, there are thousands of public projects on SonarCloud that have more interesting and realistic results.
 
 1. Browse public projects on [SonarCloud](https://sonarcloud.io/projects){:target="_blank"}
 
@@ -229,7 +229,7 @@ Open the **Sonar Examples** project in the SonarQube Dashboard.  Under ***Bugs a
    - select **Size** in the **Sort by:** drop-down
    - sort the results in descending order
 
-   ![sc_projects_all_filtered](images/sc_projects_all_filtered.png)
+   ![sc_projects_all_filtered](images/ex2/sc_projects_all_filtered.png)
 
    We have seen how to browse the project on SonarCloud to look at issues that already exist in the code base. Next, we will set up integration with pull requests so that issues can be identified and corrected before they are merged.
 
