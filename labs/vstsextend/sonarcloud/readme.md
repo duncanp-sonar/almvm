@@ -40,7 +40,7 @@ In this lab, you will learn how to integrate Visual Studio Team Services with So
 
     - Navigate to the  [SonarCloud extension](https://marketplace.visualstudio.com/items?itemName=SonarSource.sonarcloud){:target="_blank"} in the [Visual Studio Marketplace] and click **Get it free** to install it.
 
-    ![sc_marketplace](images/sc_marketplace.png)
+    ![sc_marketplace](images/ex1/sc_marketplace.png)
 
    {% include important.html content= "If you do not have the appropriate permissions to install an extension from the marketplace, a request will be sent to the account administrator to ask them to approve the installation." %}
 
@@ -51,6 +51,9 @@ In this lab, you will learn how to integrate Visual Studio Team Services with So
     - Create a new project in your VSTS account called **SonarExamples**
 
     - Import the **Sonar Scanning Examples repository** from GitHub at https://github.com/SonarSource/sonar-scanning-examples.git
+
+    ![sc_marketplace](images/ex1/setup_import.png)
+
     See [here](https://docs.microsoft.com/en-us/vsts/git/import-git-repository?view=vsts){:target="_blank"} for detailed instructions on importing a repository.
 
     The scanning examples repository contains sample projects for a number of build systems and languages including C# with MSBuild, and Maven and Gradle with Java.
@@ -61,25 +64,25 @@ We will set up a new build definition that integrates with SonarQube to analyze 
 
 1. In your new VSTS project, go to **Builds** under **Build and Release** tab, then click on **+New** to create a new build definition.
 
-1. Click **Continue** to accept the default values for **source**, **Team project** **Repository** and **Default branch**
+1. Click **Continue** to accept the default values for **source**, **Team project**, **Repository** and **Default branch**
 
-    ![build_source](images/build_source.png)
+    ![build_source](images/ex1/build_source.png)
 
    > The SonarCloud extension contains custom build templates for Maven, Gradle, .NET Core and .NET Desktop applications. The templates are based on the standard VSTS templates but with additional analysis-specific tasks and some pre-configured settings.
 
 1. Select the .NET Desktop with SonarCloud template.
 
-    ![build_templates](images/build_templates.png)
+    ![build_templates](images/ex1/build_templates.png)
 
     The template contains all of the necessary tasks and most of the required settings. We will now provide the values for the remaining settings.
 
 1. Select the _Hosted VS2017_ agent queue 
 
-    ![buildconfig_agentqueue](images/buildconfig_agentqueue.png)
+    ![buildconfig_agentqueue](images/ex1/buildconfig_agentqueue.png)
 
 1. Configure the _Prepare analysis on SonarCloud_ task
 
-    ![build_config_prepare](images/build_config_prepare.png)
+    ![build_config_prepare](images/ex1/build_config_prepare.png)
 
    There are three settings that need to be configured:
 
@@ -95,13 +98,13 @@ We will set up a new build definition that integrates with SonarQube to analyze 
 
    A service endpoint holds the configuration information VSTS requires to connect to an external service, in this case SonarCloud. There is a custom SonarCloud endpoint that requires two pieces of information: the identity of the organization in SonarCloud, and a token that the VSTS build can use to connect to SonarCloud. We will create both while setting up the endpoint.
 
-    ![build_config_prepare_newendpoint](images/build_config_prepare_newendpoint.png)
+    ![build_config_prepare_newendpoint](images/ex1/build_config_prepare_newendpoint.png)
 
    - click on the _New_ button to start creating a new endpoint
 
 1. Create a SonarCloud account
 
-    ![build_config_endpoint](images/build_config_endpoint.png)
+    ![build_config_endpoint](images/ex1/build_config_endpoint.png)
 
    - click on the **your SonarCloud account security page** link
 
@@ -109,48 +112,47 @@ We will set up a new build definition that integrates with SonarQube to analyze 
 
 1. Select the identity provider to use to log in to SonarCloud
 
-    ![sc_identity_providers](images/sc_identity_providers.png)
+    ![sc_identity_providers](images/ex1/sc_identity_providers.png)
 
 1. Authorize SonarCloud to use the identity provider
 
    > The first time you access SonarCloud, you will be asked to grant SonarCloud.io access to your account. The only permission that SonarCloud requires is to read your email address
 
-    ![sc_authorize](images/sc_authorize.png)
+    ![sc_authorize](images/ex1/sc_authorize.png)
 
     After authorizing and logging in, we will be redirected to the **Generate token** page
 
 1. Generate a token to allow VSTS to access your account on SonarCloud:
 
-    ![sc_generatetoken1](images/sc_generatetoken.png)
+    ![sc_generatetoken1](images/ex1/sc_generatetoken.png)
 
-   - enter a description name for the token e.g. "sonar_examples_token" and click _Generate_ 
+   - enter a description name for the token e.g. "vsts_build" and click **Generate** 
 
    - click **Generate**
 
 1. Copy the generated token
 
-    ![sc_generatetoken2](images/sc_generatetoken2.png)
+    ![sc_generatetoken2](images/ex1/sc_generatetoken2.png)
 
-   - click _Copy_ to copy the new token to the clipboard
+   - click **Copy** to copy the new token to the clipboard
 
     {% include note.html content= "You should treat Personal Access Tokens like passwords. It is recommended that you save them somewhere safe so that you can re-use them for future requests." %}
 
    We have now created an organization on SonarCloud, and have the token needed configure the VSTS endpoint.
 
 1. Finish creating the endpoint in VSTS
+   - return to VSTS **Add new SonarCloud Connection** page, set the **Connection name** to **SonarCloud** enter the **SonarCloud Token** you have just created.
+   - click **Verify connection** to check the endpoint is working, then click **OK** to save the endpoint.
 
-    ![build_endpoint_completed](images/build_endpoint_completed.png)
+    ![build_endpoint_completed](images/ex1/build_endpoint_completed.png)
 
-   - return to VSTS _Add new SonarCloud Connection_ page, enter the SonarCloud token you have just created.
-   - click _Verify connection_ to check the endpoint is working, then click _OK_ to save the endpoint.
+1. Finish configuring the **Prepare analysis on SonarCloud** task.
 
-1. Finish configuring the _Prepare analysis on SonarCloud_ task.
+    ![build_config_prepare_completed](images/ex1/build_config_prepare_completed.png)
 
-    ![build_config_prepare_completed](images/build_config_prepare_completed.png)
-
-   - click on the _Organization_ drop-down and select your organization.
-   - enter a unique key for your project e.g. _myaccount-vsts-sonarexamples_
-   - enter a friendly name for the project e.g. _Sonar Examples_
+   - click on the **Organization** drop-down and select your organization.
+   - enter a unique key for your project e.g. **[your account].visualstudio.com.sonarexamples.netfx**
+   - enter a friendly name for the project e.g. **Sonar Examples - NetFx**
 
 1. [Optional] Enable the _Publish Quality Gate Result_ step
   This step is not required and is disabled by default.
@@ -159,15 +161,15 @@ We will set up a new build definition that integrates with SonarQube to analyze 
 
 1. Save and queue the build.
 
-   ![build_in_progress](images/build_in_progress.png)
+   ![build_in_progress](images/ex1/build_run_in_progress.png)
 
 1. If you enabled the _Publish Quality Gate Result_ step above the Build Summary will contain a summary of the analysis report. 
 
-   ![build_completed](images/build_completed.png)
+   ![build_completed](images/ex1/build_run_completed.png)
 
-1. Either click on the **Detailed SonarQube Report** link in the build summary to open the project in SonarCloud, or browse SonarCloud and view the project.
+1. Either click on the **Detailed SonarQube Report** link in the build summary to open the project in SonarCloud, or browse to SonarCloud and view the project.
 
-   ![sc_analysis_report](images/sc_analysis_report.png)
+   ![sc_analysis_report](images/ex1/sc_analysis_report.png)
 
    We have now created a new organization on SonarCloud, and configured a VSTS build to perform analysis and push the results of the build to SonarCloud.
 
