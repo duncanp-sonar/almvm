@@ -10,14 +10,16 @@ Last updated : {{ "now" | date: "%b %d,%Y" }}
 
 ## Overview
 
-Technical debt is the set of problems in a development effort that make forward progress on customer value inefficient. Technical debt saps productivity by making code hard to understand, fragile, time-consuming to change, difficult to validate, and creates unplanned work that blocks progress. Unless they are managed, technical debt can accumulate and hurt the overall quality of the software and the productivity of the development team in the long term
+Technical debt is the set of problems in a development effort that make forward progress on customer value inefficient. Technical debt saps productivity by making code hard to understand, fragile, time-consuming to change, difficult to validate, and creates unplanned work that blocks progress. Unless they are managed, technical debt can accumulate and hurt the overall quality of the software and the productivity of the development team in the long term.
 
-[SonarCloud](https://about.sonarcloud.io/){:target="_blank"} is an open source platform for continuous inspection of code quality to perform automatic reviews with static analysis of code to:
+[SonarCloud](https://about.sonarcloud.io/){:target="_blank"} is the code quality cloud service provided by SonarSource.
+The main features of SonarCloud are:
 
-- Detect Bugs
-- Code Smells
-- Security Vulnerabilities
-- Centralize Quality
+- 16 languages: Java, JS, C#, C/C++, Objective-C, TypeScript, Python, ABAP, PLSQL, T-SQL and more.
+- Thousands of rules to track down hard-to-find bugs and quality issues thanks to powerful static code analyzers.
+- Cloud CI Integrations, with Travis, VSTS, AppVeyor and more.
+- Deep code analysis, to explore all source files, whether in branches or pull requests, to reach a green quality gate and promote the build.
+- Fast and Scalable
 
 ### What's covered in this lab
 
@@ -90,7 +92,9 @@ We will set up a new build definition that integrates with SonarCloud to analyze
    |---------|-----|-----|
    |**SonarCloud Service Endpoint**|SonarCloudSamples|The name of the VSTS endpoint that connects to SonarCloud|
    |**Organization**|_{your SonarCloud org id}_ |The unique key of your organization in SonarCloud|
-   |**Project Key**|_{your SonarCloud org id}_.netfxdemo |The unique key of the project in SonarCloud|
+   |**Project Key**|[your account].visualstudio.com.sonarexamples.netfx |The unique key of the project in SonarCloud|
+
+   {% include important.html content= "Currently the project key must be globally unique across all projects in SonarCloud. In the future, the project key will only need to be unique within your SonarCloud organization." %}
 
    We will now create the endpoint and an account on SonarCloud.
 
@@ -102,7 +106,7 @@ We will set up a new build definition that integrates with SonarCloud to analyze
 
 1. Create a SonarCloud account
 
-   A service endpoint holds the configuration information VSTS requires to connect to an external service, in this case SonarCloud. There is a custom SonarCloud endpoint that requires two pieces of information: the identity of the organization in SonarCloud, and a token that the VSTS build can use to connect to SonarCloud. We will create both while setting up the endpoint.
+   A service endpoint provides the information VSTS requires to connect to an external service, in this case SonarCloud. There is a custom SonarCloud endpoint that requires two pieces of information: the identity of the organization in SonarCloud, and a token that the VSTS build can use to connect to SonarCloud. We will create both while setting up the endpoint.
 
    - click on the **your SonarCloud account security page** link
 
@@ -194,7 +198,7 @@ Open the **Sonar Examples - NetFx** project in the SonarCloud Dashboard.  Under 
    |**Duplications**|The duplications decoration shows which parts of the source code are duplicated|
    |**Size**|Provides the count of lines of code within the project including the number of statements, Functions, Classes, Files and Directories|
 
-  {% include important.html content= "In this example, along with the bug count, a character **C** is displayed which is known as **Reliability Rating**. **C** indicates that there is **at least 1 major bug** in this code. For more information on Reliability Rating, click [here](https://docs.sonarqube.org/display/SONAR/Metric+Definitions#MetricDefinitions-Reliability)" %}
+  {% include important.html content= "In this example, along with the bug count, a character **C** is displayed which is known as **Reliability Rating**. **C** indicates that there is **at least 1 major bug** in this code. For more information on Reliability Rating, click [here](https://docs.sonarqube.org/display/SONAR/Metric+Definitions#MetricDefinitions-Reliability)". For more information on rule types and severities, see [here](https://docs.sonarqube.org/display/SONAR/Rules+-+types+and+severities) %}
 
 1. Click on the **Bugs** count to see the details of the bug.
 
