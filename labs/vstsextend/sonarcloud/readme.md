@@ -28,7 +28,6 @@ In this lab, you will learn how to integrate Visual Studio Team Services with So
 - Setup a VSTS project and CI build to integrate with SonarCloud
 - Analyze SonarCloud reports
 - Integrate static analysis into the VSTS pull request process
-- Add a dashboard widget to display the current quality of the project
 
 ### Prerequisites for the lab
 
@@ -240,27 +239,30 @@ Open the **Sonar Examples - NetFx** project in the SonarCloud Dashboard.  Under 
 
 ## Exercise 3: Set up pull request integration
    
-   Setting up code analysis to run when a pull request is created has two parts:
+   Configurating SonarCloud analysis to run when a pull request is created has two parts:
    - the SonarCloud project needs to be provided with an access token so it can add PR comments to VSTS, and
    - a Branch Policy needs to be configured in VSTS to trigger the PR build
 
 1. Create a **Personal Access Token** in VSTS.
 
-   - Follow the instructions in this [article](https://docs.microsoft.com/en-us/vsts/accounts/use-personal-access-tokens-to-authenticate){:target="_blank"} for instructions to create your token.
+   - Follow the instructions in this [article](https://docs.microsoft.com/en-us/vsts/accounts/use-personal-access-tokens-to-authenticate){:target="_blank"} to create a token with **Code (read and write)** scope.
 
-   SonarCloud requires the permissions authorized scope **Code (read and write)** to be able to post comments to pull requests.
+   > SonarCloud requires the scope **Code (read and write)** to be able to post comments to pull requests.
+
+    > SonarCloud will post comments to the pull request as if it is user who owns the personal access token. The recommended practice is to create a separate "bot" VSTS user for this so that it is clear which comments are from real developers and which are from SonarCloud.
    
    ![vsts_pat_permissions](images/ex3/vsts_pat_permissions.png)
 
-   {% include note.html content= "You should treat Personal Access Tokens like passwords. It is recommended that you save them somewhere safe so that you can re-use them for future requests." %}
+    {% include note.html content= "You should treat Personal Access Tokens like passwords. It is recommended that you save them somewhere safe so that you can re-use them for future requests." %}
 
 1. Configure SonarCloud to analyze pull requests
 
    - browse to the **Sonar Examples - NetFx** dashboard in SonarCloud
-   - click on **Administration**, **General Settings** and select the **Pull Requests** tab
+   - click on **Administration**, **General Settings**
    
    ![sc_admin](images/ex3/sc_admin.png)
 
+   - select the **Pull Requests** tab
    - set the **Provider** drop-down to **VSTS**
    - set the **Personal access token**
    - click **Save**
@@ -274,7 +276,7 @@ Open the **Sonar Examples - NetFx** project in the SonarCloud Dashboard.  Under 
 
       ![vsts_home](images/ex3/vsts_home.png)
 
-   - click on the settings link ("**...***") for **master** and select **Branch policies***
+   - click on the settings link ("**...**") for **master** and select **Branch policies***
 
       ![vsts_branches](images/ex3/vsts_branches.png)
 
@@ -286,28 +288,56 @@ Open the **Sonar Examples - NetFx** project in the SonarCloud Dashboard.  Under 
    - set the **Display name** to **SonarCloud analysis**
    - click **Save**
 
-      ![vsts_branch_policy](images/ex3/vsts_branch_policy.png)
+      ![vsts_branch_policy_add](images/ex3/vsts_branch_policy_add.png)
 
+   VSTS is now configured to trigger a SonarCloud analysis when any pull request targetting the **master** branch is created.
 
-1. Create a new pull request
+1. Edit a file a new pull request
    
    Now we need to make a change and create a new request so we check that the pull request triggers the analysis.
 
    - navigate to the code file **Program.cs** at **sonarqube-scanner-msbuild/CSharpProject/SomeConsoleApplication/Program.cs**
+   - make the following edit to the code:
+   > public void Unused()
+   > {
+   > }
 
-   IMAGE
+   ![vsts_program_edit](images/ex3/vsts_program_edit.png)
 
-   - edit the code 
+   - click **Commit**
+   In the dialogue that appears:
+   - change the branch name from **master** to **branch1**
+   - check the **Create a pull request** checkbox
+   - click **Commit**, then click **Create** on the next screen
 
-   IMAGE
+   ![vsts_program_commit](images/ex3/vsts_program_commit.png)
    
-   - commit the change to a new branch, and check the option **Create pull request**
+   If the PR integration is correctly configured the UI will show that the build analysis build is in progress.
+   
+   ![vsts_pr_in_progress_partial](images/ex3/vsts_pr_in_progress_partial.png)
 
-   Committing the change will trigger a new build
+1. Review the results of the Pull Request analysis
 
-## Exercise 4: Add a dashboard widget
+   The results show that the analysis build completed successfully, but that the new code in the PR failed the Code Quality check.
+   A comment has been posted to the PR for the new issue that was discovered.
 
-**TODO**
+   ![vsts_pr_check_failed](images/ex3/vsts_pr_check_failed.png)
+
+   Note that the only issues in code that was changed or added in the pull request are reported - pre-existing issues in **Program.cs** or in other files are ignored.
+
+1. Block pull requests if the Code Quality check failed
+
+   At present it is still possible to complete the pull request and commit the changes even though the Code Quality check has failed.
+   However, it is simple to configure VSTS to block the commit unless the Code Quality check passes:
+   - return to the **Branch Policy** page
+   - click **Add status policy**
+   - select **SonarCloud/quality gate** from the **Status to check** drop-down
+   - set the **Policy requirement** to **Required**
+   - click **Save**
+
+   ![vsts_status_policy_add](images/ex3/vsts_status_policy_add.png)
+
+   Users will now be unable to merge the pull request until the Code Quality check is successful, either because all of the issues have been fixed or the the issues have been marked as **confirmed** or **resolved** in SonarCloud.
 
 ## Summary
 
