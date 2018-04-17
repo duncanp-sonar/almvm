@@ -215,27 +215,7 @@ Open the **Sonar Examples - NetFx** project in the SonarCloud Dashboard.  Under 
 
    ![bug_details_code_coverage](images/ex2/bug_details_code_coverage.png)
 
-   Our sample project is very small and has no historical data. However, there are thousands of public projects on SonarCloud that have more interesting and realistic results.
-
-1. Browse public projects on [SonarCloud](https://sonarcloud.io/projects){:target="_blank"}
-
-   As we are still logged in, we will only see our projects by default.
-   - click **Explore** to see all projects
-
-   ![sc_projects_mine](images/ex2/sc_projects_mine.png)
-
-   ![sc_projects_all](images/ex2/sc_projects_all.png)
-
-1. Filter projects by language and size
-
-   - select **C#** in the set of filters
-   - select **Size** in the **Sort by:** drop-down
-   - sort the results in descending order
-
-   ![sc_projects_all_filtered](images/ex2/sc_projects_all_filtered.png)
-
-   We have seen how to browse the project on SonarCloud to look at issues that already exist in the code base. Next, we will set up integration with pull requests so that issues can be identified and corrected before they are merged.
-
+   Our sample project is very small and has no historical data. However, there are thousands of [public projects on SonarCloud](https://sonarcloud.io/explore/project){:target="_blank"} that have more interesting and realistic results.
 
 ## Exercise 3: Set up pull request integration
    
