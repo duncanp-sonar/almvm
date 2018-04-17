@@ -227,8 +227,6 @@ Open the **Sonar Examples - NetFx** project in the SonarCloud Dashboard.  Under 
 
    - Follow the instructions in this [article](https://docs.microsoft.com/en-us/vsts/accounts/use-personal-access-tokens-to-authenticate){:target="_blank"} to create a token with **Code (read and write)** scope.
 
-   > SonarCloud requires the scope **Code (read and write)** to be able to post comments to pull requests.
-
     > SonarCloud will post comments to the pull request as if it is user who owns the personal access token. The recommended practice is to create a separate "bot" VSTS user for this so that it is clear which comments are from real developers and which are from SonarCloud.
    
    ![vsts_pat_permissions](images/ex3/vsts_pat_permissions.png)
@@ -272,19 +270,15 @@ Open the **Sonar Examples - NetFx** project in the SonarCloud Dashboard.  Under 
 
    VSTS is now configured to trigger a SonarCloud analysis when any pull request targetting the **master** branch is created.
 
-1. Edit a file a new pull request
+1. Create a new pull request
    
-   Now we need to make a change and create a new request so we check that the pull request triggers the analysis.
+   Now we need to make a change to a file and create a new request so we check that the pull request triggers the analysis.
 
    - navigate to the code file **Program.cs** at **sonarqube-scanner-msbuild/CSharpProject/SomeConsoleApplication/Program.cs**
-   - make the following edit to the code:
-   > public void Unused()
-   > {
-   > }
+   - add an empty method to the code as shown in the following screen shot, then click **Commit...**
 
    ![vsts_program_edit](images/ex3/vsts_program_edit.png)
 
-   - click **Commit**
    In the dialogue that appears:
    - change the branch name from **master** to **branch1**
    - check the **Create a pull request** checkbox
