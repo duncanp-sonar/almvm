@@ -215,7 +215,7 @@ Open the **Sonar Examples - NetFx** project in the SonarCloud Dashboard.  Under 
 
    ![bug_details_code_coverage](images/ex2/bug_details_code_coverage.png)
 
-   Our sample project is very small and has no historical data. However, there are thousands of [public projects on SonarCloud](https://sonarcloud.io/explore/project){:target="_blank"} that have more interesting and realistic results.
+   Our sample project is very small and has no historical data. However, there are thousands of [public projects on SonarCloud](https://sonarcloud.io/explore/projects){:target="_blank"} that have more interesting and realistic results.
 
 ## Exercise 3: Set up pull request integration
    
