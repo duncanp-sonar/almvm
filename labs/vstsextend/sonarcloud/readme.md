@@ -38,7 +38,7 @@ In this lab, you will learn how to integrate Visual Studio Team Services with So
 
 1. Install the SonarCloud VSTS extension to your VSTS account
 
-    - Navigate to the  [SonarCloud extension](https://marketplace.visualstudio.com/items?itemName=SonarSource.sonarcloud){:target="_blank"} in the [Visual Studio Marketplace] and click **Get it free** to install it.
+    - Navigate to the  [SonarCloud extension](https://marketplace.visualstudio.com/items?itemName=SonarSource.sonarcloud){:target="_blank"} in the Visual Studio Marketplace and click **Get it free** to install it.
 
     ![sc_marketplace](images/ex1/sc_marketplace.png)
 
@@ -78,7 +78,7 @@ We will set up a new build definition that integrates with SonarQube to analyze 
 
 1. Select the _Hosted VS2017_ agent queue 
 
-    ![buildconfig_agentqueue](images/ex1/buildconfig_agentqueue.png)
+    ![build_config_agentqueue](images/ex1/build_config_agentqueue.png)
 
 1. Configure the _Prepare analysis on SonarCloud_ task
 
@@ -96,21 +96,23 @@ We will set up a new build definition that integrates with SonarQube to analyze 
 
 1. Create a service endpoint for SonarCloud
 
-   A service endpoint holds the configuration information VSTS requires to connect to an external service, in this case SonarCloud. There is a custom SonarCloud endpoint that requires two pieces of information: the identity of the organization in SonarCloud, and a token that the VSTS build can use to connect to SonarCloud. We will create both while setting up the endpoint.
+   - click on the _New_ button to start creating a new endpoint
 
     ![build_config_prepare_newendpoint](images/ex1/build_config_prepare_newendpoint.png)
 
-   - click on the _New_ button to start creating a new endpoint
-
 1. Create a SonarCloud account
 
-    ![build_config_endpoint](images/ex1/build_config_endpoint.png)
+   A service endpoint holds the configuration information VSTS requires to connect to an external service, in this case SonarCloud. There is a custom SonarCloud endpoint that requires two pieces of information: the identity of the organization in SonarCloud, and a token that the VSTS build can use to connect to SonarCloud. We will create both while setting up the endpoint.
 
    - click on the **your SonarCloud account security page** link
 
-   As we are not currently logged in to SonarCloud we will be taken to the SonarCloud login page.
+    ![build_config_endpoint](images/ex1/build_config_endpoint.png)
 
 1. Select the identity provider to use to log in to SonarCloud
+
+   As we are not currently logged in to SonarCloud we will be taken to the SonarCloud login page.
+
+   - select the identity provider you want use and complete the log in process
 
     ![sc_identity_providers](images/ex1/sc_identity_providers.png)
 
@@ -124,17 +126,18 @@ We will set up a new build definition that integrates with SonarQube to analyze 
 
 1. Generate a token to allow VSTS to access your account on SonarCloud:
 
-    ![sc_generatetoken1](images/ex1/sc_generatetoken.png)
-
    - enter a description name for the token e.g. "vsts_build" and click **Generate** 
 
    - click **Generate**
 
+    ![sc_generatetoken1](images/ex1/sc_generatetoken.png)
+
 1. Copy the generated token
+
+   - click **Copy** to copy the new token to the clipboard
 
     ![sc_generatetoken2](images/ex1/sc_generatetoken2.png)
 
-   - click **Copy** to copy the new token to the clipboard
 
     {% include note.html content= "You should treat Personal Access Tokens like passwords. It is recommended that you save them somewhere safe so that you can re-use them for future requests." %}
 
@@ -144,20 +147,21 @@ We will set up a new build definition that integrates with SonarQube to analyze 
    - return to VSTS **Add new SonarCloud Connection** page, set the **Connection name** to **SonarCloud** enter the **SonarCloud Token** you have just created.
    - click **Verify connection** to check the endpoint is working, then click **OK** to save the endpoint.
 
-    ![build_endpoint_completed](images/ex1/build_endpoint_completed.png)
+    ![build_config_endpoint_completed](images/ex1/build_config_endpoint_completed.png)
 
 1. Finish configuring the **Prepare analysis on SonarCloud** task.
-
-    ![build_config_prepare_completed](images/ex1/build_config_prepare_completed.png)
 
    - click on the **Organization** drop-down and select your organization.
    - enter a unique key for your project e.g. **[your account].visualstudio.com.sonarexamples.netfx**
    - enter a friendly name for the project e.g. **Sonar Examples - NetFx**
 
+    ![build_config_prepare_completed](images/ex1/build_config_prepare_completed.png)
+
 1. [Optional] Enable the _Publish Quality Gate Result_ step
-  This step is not required and is disabled by default.
-  If this step is enabled, a summary of the analysis results will appear on the _Build Summary_ page. However, this will delay the completion of the build until the 
-  processing on SonarCloud has finished.
+
+   This step is not required and is disabled by default.
+   If this step is enabled, a summary of the analysis results will appear on the _Build Summary_ page. However, this will delay the completion of the build until the 
+   processing on SonarCloud has finished.
 
 1. Save and queue the build.
 
