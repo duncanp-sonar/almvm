@@ -60,7 +60,7 @@ In this lab, you will learn how to integrate Visual Studio Team Services with So
 
 ## Exercise 1: Set up a build definition that integrates with SonarCloud
 
-We will set up a new build definition that integrates with SonarQube to analyze the **SonarExamples** code. As part of setting up the build definition we will create a SonarCloud account and organization.
+We will set up a new build definition that integrates with SonarCloud to analyze the **SonarExamples** code. As part of setting up the build definition we will create a SonarCloud account and organization.
 
 1. In your new VSTS project, go to **Builds** under **Build and Release** tab, then click on **+New** to create a new build definition.
 
@@ -89,8 +89,8 @@ We will set up a new build definition that integrates with SonarQube to analyze 
    |Setting|Value|Notes|
    |---------|-----|-----|
    |**SonarCloud Service Endpoint**|SonarCloudSamples|The name of the VSTS endpoint that connects to SonarCloud|
-   |**Organization**|_{your SonarCloud org id}_ |The unique key of your organization in SonarQube|
-   |**Project Key**|_{your SonarCloud org id}_.netfxdemo |The unique key of the project in SonarQube|
+   |**Organization**|_{your SonarCloud org id}_ |The unique key of your organization in SonarCloud|
+   |**Project Key**|_{your SonarCloud org id}_.netfxdemo |The unique key of the project in SonarCloud|
 
    We will now create the endpoint and an account on SonarCloud.
 
@@ -171,15 +171,15 @@ We will set up a new build definition that integrates with SonarQube to analyze 
 
    ![build_completed](images/ex1/build_run_completed.png)
 
-1. Either click on the **Detailed SonarQube Report** link in the build summary to open the project in SonarCloud, or browse to SonarCloud and view the project.
+1. Either click on the **Detailed SonarCloud Report** link in the build summary to open the project in SonarCloud, or browse to SonarCloud and view the project.
 
    ![sc_analysis_report](images/ex1/sc_analysis_report.png)
 
    We have now created a new organization on SonarCloud, and configured a VSTS build to perform analysis and push the results of the build to SonarCloud.
 
-## Exercise 2: Analyze SonarQube Reports
+## Exercise 2: Analyze SonarCloud Reports
 
-Open the **Sonar Examples - NetFx** project in the SonarQube Dashboard.  Under ***Bugs and Vulnerabilities***, we can see a bug has been caught.
+Open the **Sonar Examples - NetFx** project in the SonarCloud Dashboard.  Under ***Bugs and Vulnerabilities***, we can see a bug has been caught.
 
   ![sonar_portal](images/ex2/sonar_portal_bug.png)
 
